@@ -885,11 +885,11 @@ StDebuggerActionModelTest >> testRecompileMethodToInBlockContext [
 	"After recompiling the method, the model holds an updated ast scope that is not the one of the block:"
 	self deny: previousASTScope identicalTo: debugActionModel previousASTScope.
 	
-	"The new ast scope is the one of the AST of the first interesting bytecode of the method,
-	that is the block declaration:"
+	"The new ast scope is stopped in the first interesting bytecode with side effect: send, return or assignment.
+	All of them are in the same method, and have the method scope"
 	self
 		assert: debugActionModel previousASTScope
-		identicalTo: (self class >> #methodWithBlockContext) ast statements first value scope
+		identicalTo: (self class >> #methodWithBlockContext) ast scope
 ]
 
 { #category : 'tests - actions' }

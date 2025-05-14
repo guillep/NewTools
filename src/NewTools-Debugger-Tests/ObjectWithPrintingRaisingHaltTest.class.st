@@ -11,7 +11,7 @@ ObjectWithPrintingRaisingHaltTest >> testInspectingObjectWithPrintOnWithHaltOpen
 	"Make sure that inspecting an object with a broken printOn: does not produce an endless loop.
 	"
 	
-	| openInspectors inspectedObject |
+	| openInspectors inspectedObject instances |
 	
 	5 timesRepeat: [ Smalltalk garbageCollect ].
 	StInspectorPresenter allInstances select: [ :e | e window isOpen ] 
@@ -34,5 +34,7 @@ ObjectWithPrintingRaisingHaltTest >> testInspectingObjectWithPrintOnWithHaltOpen
 		assert: openInspectors first model inspectedObject
 		equals: inspectedObject.
 
-	StInspectorPresenter allInstances do: [ :each | each delete ].
+	instances := StInspectorPresenter allInstances.
+	instances do: [ :each | 
+		each delete ].
 ]

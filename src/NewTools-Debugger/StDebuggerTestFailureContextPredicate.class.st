@@ -46,8 +46,11 @@ StDebuggerTestFailureContextPredicate >> printDescription [
 		str << failure description.
 		^ str contents ].
 	(failure isClass and: [ failure includesBehavior: TestFailure ]) 
-		ifTrue: [ 
-			str << (context tempNamed: #aStringOrBlock) value.
+		ifTrue: [ | debugInfo variables temp |
+			debugInfo := context method debugInfo.
+			variables := debugInfo variablesAt: context pc.
+			temp := variables detect: [ :e | e name = #aStringOrBlock ].
+			str << (temp readInContext: context) value.
 			^ str contents ].
 
 	str << 'Cannot print test failure in: '.
